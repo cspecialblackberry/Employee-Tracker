@@ -1,4 +1,5 @@
 const sequelize = require('../config/connection.js')
+const inquirer = require('inquirer')
 
 
 // const viewDepartments = async () => {
@@ -13,6 +14,18 @@ const viewDepartments = async () => {
     return result
 }
 
+const addDepartment = async () => {
+    const response = await inquirer.prompt([
+        {
+            type: 'text',
+            message: 'what is the department name?',
+            name: 'name'
+        }
+    ])
+    const post = await sequelize.query(`INSERT INTO department (name) values ('${response.name}')`)
+}
+
 module.exports = {
-    viewDepartments
+    viewDepartments,
+    addDepartment
 }

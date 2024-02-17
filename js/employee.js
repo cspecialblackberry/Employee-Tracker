@@ -1,4 +1,5 @@
 const sequelize = require('../config/connection.js')
+const inquirer = require('inquirer')
 
 const viewEmployees = async () => {
     const [result, meta] = await sequelize.query("SELECT * FROM employee")

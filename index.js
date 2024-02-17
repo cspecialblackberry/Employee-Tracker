@@ -23,41 +23,41 @@ const department = require('./js/department.js')
 //     return resultNames
 // }
 
-const addDepartment = async () => {
-    const response = await inquirer.prompt([
-        {
-            type: 'text',
-            message: 'what is the department name?',
-            name: 'name'
-        }
-    ])
-    const post = await sequelize.query(`INSERT INTO department (name) values ('${response.name}')`)
-}
+// const addDepartment = async () => {
+//     const response = await inquirer.prompt([
+//         {
+//             type: 'text',
+//             message: 'what is the department name?',
+//             name: 'name'
+//         }
+//     ])
+//     const post = await sequelize.query(`INSERT INTO department (name) values ('${response.name}')`)
+// }
 
-const addRoll = async () => {
-    const response = await inquirer.prompt([
-        {
-            type: 'text',
-            message: 'What is the name of the roll?',
-            name: 'roll'
-        },
-        {
-            type: 'input',
-            message: 'What is the salary?',
-            name: 'salary'
-        },
-        {
-            type: 'list',
-            message: 'what is the department?',
-            name: 'department',
-            choices: (await viewDepartments()).map((dep) => {
-                return {name: dep.name, value: dep.id}
-            })
-        }
+// const addRoll = async () => {
+//     const response = await inquirer.prompt([
+//         {
+//             type: 'text',
+//             message: 'What is the name of the roll?',
+//             name: 'roll'
+//         },
+//         {
+//             type: 'input',
+//             message: 'What is the salary?',
+//             name: 'salary'
+//         },
+//         {
+//             type: 'list',
+//             message: 'what is the department?',
+//             name: 'department',
+//             choices: (await viewDepartments()).map((dep) => {
+//                 return {name: dep.name, value: dep.id}
+//             })
+//         }
 
-    ])
-    console.log(response)
-}
+//     ])
+//     console.log(response)
+// }
 
 const addEmployee = async () => {
     const departments = await sequelize.query("SELECT * FROM department")
@@ -131,7 +131,7 @@ const runApp = async() => {
             console.log( await viewEmployees())
             break   
         case "VIEW ROLES":
-            console.log( await viewRoles())
+            console.log( await role.viewRoles())
             break
         case "VIEW DEPT":
             console.log( await department.viewDepartments())
@@ -140,7 +140,7 @@ const runApp = async() => {
             addDepartment()
             break
         case "ADD ROLL":
-            addRoll()
+            role.addRole()
             break
         case "ADD EMP":
             addEmployee()
