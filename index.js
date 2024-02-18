@@ -59,31 +59,31 @@ const department = require('./js/department.js')
 //     console.log(response)
 // }
 
-const addEmployee = async () => {
-    const departments = await sequelize.query("SELECT * FROM department")
-    const response = await inquirer.prompt([
-        {
-            type: 'text',
-            message: 'What is their first name?',
-            name: 'first_name'
-        },
-        {
-            type: 'text',
-            message: 'What is their last name?',
-            name: 'last_name'
-        },
-        {
-            type: 'list',
-            message: 'what is their role?',
-            name: 'role',
-            choices: (await viewDepartments()).map((dep) => {
-                return {name: dep.name, value: dep.id}
-            })
-        }
+// const addEmployee = async () => {
+//     const departments = await sequelize.query("SELECT * FROM department")
+//     const response = await inquirer.prompt([
+//         {
+//             type: 'text',
+//             message: 'What is their first name?',
+//             name: 'first_name'
+//         },
+//         {
+//             type: 'text',
+//             message: 'What is their last name?',
+//             name: 'last_name'
+//         },
+//         {
+//             type: 'list',
+//             message: 'what is their role?',
+//             name: 'role',
+//             choices: (await viewDepartments()).map((dep) => {
+//                 return {name: dep.name, value: dep.id}
+//             })
+//         }
 
-    ])
-    console.log(response)
-}
+//     ])
+//     console.log(response)
+// }
 
 const runApp = async() => {
     const response = await inquirer.prompt([
@@ -128,22 +128,28 @@ const runApp = async() => {
 
     switch(selection){
         case "VIEW EMP":
-            console.log( await viewEmployees())
+            console.log((await employee.viewEmployees()).map((emp) => `${emp.first_name} ${emp.last_name}`))
+            runApp()
             break   
         case "VIEW ROLES":
             console.log( await role.viewRoles())
+            runApp()
             break
         case "VIEW DEPT":
             console.log( await department.viewDepartments())
+            runApp()
             break
         case "ADD DEPT":
-            addDepartment()
+            await department.addDepartment()
+            runApp()
             break
         case "ADD ROLL":
-            role.addRole()
+            await role.addRole()
+            runApp()
             break
         case "ADD EMP":
-            addEmployee()
+            await employee.addEmployee()
+            runApp()
             break
         case "UPDT EMP":
             break

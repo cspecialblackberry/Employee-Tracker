@@ -6,7 +6,7 @@ const department = require('./department.js')
 const viewRoles = async () => {
     const [result, meta] = await sequelize.query("SELECT * FROM role")
     const resultTitles = result.map((role) => role.title)
-    return resultTitles
+    return result
 }
 
 const addRole = async () => {
