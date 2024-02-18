@@ -23,7 +23,7 @@ const addRole = async () => {
         },
         {
             type: 'list',
-            message: 'what is the department?',
+            message: 'What is the department?',
             name: 'department_id',
             choices: (await department.viewDepartments()).map((dep) => {
                 return {name: dep.name, value: dep.id}

@@ -93,31 +93,31 @@ const runApp = async() => {
             name: 'selection',
             choices: [
                 {
-                    name: 'view all employees',
+                    name: 'View all employees',
                     value: 'VIEW EMP'
                 },
                 {
-                    name: 'view all roles',
+                    name: 'View all roles',
                     value: 'VIEW ROLES'
                 },
                 {
-                    name: 'view all departments',
+                    name: 'View all departments',
                     value: 'VIEW DEPT'
                 },
                 {
-                    name: 'add a new department',
+                    name: 'Add a new department',
                     value: 'ADD DEPT'
                 },
                 {
-                    name: 'add a new role',
+                    name: 'Add a new role',
                     value: 'ADD ROLL'
                 },
                 {
-                    name: 'add a new employee',
+                    name: 'Add a new employee',
                     value: 'ADD EMP'
                 },
                 {
-                    name: "update an employee's role",
+                    name: "Update an employee's role",
                     value: 'UPDT EMP'
                 }
             ]

@@ -18,7 +18,7 @@ const addDepartment = async () => {
     const response = await inquirer.prompt([
         {
             type: 'text',
-            message: 'what is the department name?',
+            message: 'What is the department name?',
             name: 'name'
         }
     ])

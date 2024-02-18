@@ -22,6 +22,11 @@ const managerPrompt = async () => {
     return response
 }
 
+const insertEmployee = async (emp) => {
+    return await sequelize.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) values ('${emp.first_name}', '${emp.last_name}'
+    , ${emp.role}, ${emp.manager_id})`)
+}
+
 const addEmployee = async () => {
     const response = await inquirer.prompt([
         {
@@ -36,7 +41,7 @@ const addEmployee = async () => {
         },
         {
             type: 'list',
-            message: 'what is their role?',
+            message: 'What is their role?',
             name: 'role',
             choices: (await role.viewRoles()).map((role) => {
                 return { name: role.title, value: role.id }
@@ -60,6 +65,7 @@ const addEmployee = async () => {
                 ...manager
             }
             console.log(newEmpT)
+            await insertEmployee(newEmpT)
             break
         case false:
             const newEmpF = {
@@ -67,6 +73,7 @@ const addEmployee = async () => {
                 manager_id: null
             }
             console.log(newEmpF)
+            await insertEmployee(newEmpF)
             break
     }
 }
