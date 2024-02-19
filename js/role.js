@@ -31,8 +31,8 @@ const addRole = async () => {
         }
 
     ])
-    console.log(response)
     const post = await sequelize.query(`INSERT INTO role (title, salary, department_id) values ('${response.title}', ${response.salary}, ${response.department_id})`)
+    console.log('Successfully added new role!')
 }
 
 module.exports = {

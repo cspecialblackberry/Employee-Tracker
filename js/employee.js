@@ -23,8 +23,7 @@ const managerPrompt = async () => {
 }
 
 const insertEmployee = async (emp) => {
-    return await sequelize.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) values ('${emp.first_name}', '${emp.last_name}'
-    , ${emp.role}, ${emp.manager_id})`)
+    return await sequelize.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) values ('${emp.first_name}', '${emp.last_name}', ${emp.role}, ${emp.manager_id})`)
 }
 
 const addEmployee = async () => {
@@ -55,7 +54,6 @@ const addEmployee = async () => {
     ])
 
     const { managerBool } = response
-    console.log(managerBool)
 
     switch(managerBool){
         case true:
@@ -64,21 +62,45 @@ const addEmployee = async () => {
                 ...response,
                 ...manager
             }
-            console.log(newEmpT)
             await insertEmployee(newEmpT)
+            console.log('Successfully added new employee!')
             break
         case false:
             const newEmpF = {
                 ...response,
                 manager_id: null
             }
-            console.log(newEmpF)
             await insertEmployee(newEmpF)
+            console.log('Successfully added new employee!')
             break
     }
 }
 
+const updateEmployee = async () => {
+    const response = await inquirer.prompt([
+        {
+            type: 'list',
+            message: 'Which employee would you like to update?',
+            name: 'employee_id',
+            choices: (await viewEmployees()).map((emp) => {
+                return { name: `${emp.first_name} ${emp.last_name}`, value: emp.id }
+            })   
+        },
+        {
+            type: 'list',
+            message: 'What is their new role?',
+            name: 'role_id',
+            choices: (await role.viewRoles()).map((role) => {
+                return { name: role.title, value: role.id }
+            })
+        }
+    ])
+    const update = await sequelize.query(`UPDATE employee SET role_id=${response.role_id} WHERE id=${response.employee_id}`)
+    console.log('Successfully updated employee!')
+}
+
 module.exports = {
     viewEmployees,
-    addEmployee
+    addEmployee,
+    updateEmployee
 }
