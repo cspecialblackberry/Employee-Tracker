@@ -8,6 +8,28 @@ const viewEmployees = async () => {
     return result
 }
 
+const viewManagerEmployees = async () => {
+    const response = await inquirer.prompt(
+        {
+            type: 'list',
+            message: 'Whose employees would you like to see?',
+            name: 'employee_id',
+            choices: (await viewEmployees()).map((emp) => {
+                return { name: `${emp.first_name} ${emp.last_name}`, value: emp.id }
+            })  
+        }
+    )
+    const result = await sequelize.query(`SELECT * FROM employee WHERE manager_id=${response.employee_id}`)
+    if(result[0]==''){
+        console.log('This employee does not manage anyone.')
+        return 
+    }else{
+        const employees = result.pop()
+        return result
+    }
+    console.log(result)
+}
+
 const managerPrompt = async () => {
     const response = await inquirer.prompt(
         {
@@ -76,7 +98,7 @@ const addEmployee = async () => {
     }
 }
 
-const updateEmployee = async () => {
+const updateEmployeeRole = async () => {
     const response = await inquirer.prompt([
         {
             type: 'list',
@@ -99,8 +121,33 @@ const updateEmployee = async () => {
     console.log('Successfully updated employee!')
 }
 
+const updateEmployeeManager = async () => {
+    const response = await inquirer.prompt([
+        {
+            type: 'list',
+            message: 'Which employee would you like to update?',
+            name: 'employee_id',
+            choices: (await viewEmployees()).map((emp) => {
+                return { name: `${emp.first_name} ${emp.last_name}`, value: emp.id }
+            })   
+        },
+        {
+            type: 'list',
+            message: 'Who is their new manager?',
+            name: 'manager_id',
+            choices: (await viewEmployees()).map((emp) => {
+                return { name: `${emp.first_name} ${emp.last_name}`, value: emp.id }
+            })
+        }
+    ])
+    const update = await sequelize.query(`UPDATE employee SET manager_id=${response.manager_id} WHERE id=${response.employee_id}`)
+    console.log('Successfully updated employee!')
+}
+
 module.exports = {
     viewEmployees,
     addEmployee,
-    updateEmployee
+    updateEmployeeRole,
+    updateEmployeeManager,
+    viewManagerEmployees
 }

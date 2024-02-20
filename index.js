@@ -1,3 +1,14 @@
+// Update employee managers.
+//Done
+
+// View employees by manager.
+
+// View employees by department.
+
+// Delete departments, roles, and employees.
+
+// View the total utilized budget of a department—in other words, the combined salaries of all employees in that department.
+
 const sequelize = require('./config/connection.js')
 const inquirer = require('inquirer')
 
@@ -40,6 +51,14 @@ const runApp = async() => {
                 {
                     name: "Update an employee's role",
                     value: 'UPDT EMP'
+                },
+                {
+                    name: "Update an employee's manager",
+                    value: 'UPDT EMPM'
+                },
+                {
+                    name: "View employees by manager",
+                    value: 'VIEW EMPM'
                 }
             ]
         }
@@ -73,7 +92,15 @@ const runApp = async() => {
             runApp()
             break
         case "UPDT EMP":
-            await employee.updateEmployee()
+            await employee.updateEmployeeRole()
+            runApp()
+            break
+        case "UPDT EMPM":
+            await employee.updateEmployeeManager()
+            runApp()
+            break
+        case "VIEW EMPM":
+            console.table((await employee.viewManagerEmployees()).flat())
             runApp()
             break
     }
