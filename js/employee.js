@@ -44,7 +44,9 @@ const viewDepartmentEmployees = async () => {
     )
     const roles = (await sequelize.query(`SELECT * FROM role WHERE department_id=${response.department_id}`))
     roles.pop()
-    console.log(roles.flat())
+    const roleIDs = (roles.flat()).map((role) => role.id)
+    const employees = []
+    
 }
 
 const managerPrompt = async () => {
