@@ -2,6 +2,7 @@ const sequelize = require('../config/connection.js')
 const inquirer = require('inquirer')
 
 const role = require('./role.js')
+const department = require('./department.js')
 
 const viewEmployees = async () => {
     const [result, meta] = await sequelize.query("SELECT * FROM employee")
@@ -28,6 +29,22 @@ const viewManagerEmployees = async () => {
         return result
     }
     console.log(result)
+}
+
+const viewDepartmentEmployees = async () => {
+    const response = await inquirer.prompt(
+        {
+            type: 'list',
+            message: "Which department's employees would you like to see?",
+            name: 'department_id',
+            choices: (await department.viewDepartments()).map((dep) => {
+                return { name: dep.name, value: dep.id }
+            })  
+        }
+    )
+    const roles = (await sequelize.query(`SELECT * FROM role WHERE department_id=${response.department_id}`))
+    roles.pop()
+    console.log(roles.flat())
 }
 
 const managerPrompt = async () => {
@@ -149,5 +166,6 @@ module.exports = {
     addEmployee,
     updateEmployeeRole,
     updateEmployeeManager,
-    viewManagerEmployees
+    viewManagerEmployees,
+    viewDepartmentEmployees
 }

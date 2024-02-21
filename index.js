@@ -2,6 +2,7 @@
 //Done
 
 // View employees by manager.
+//Done
 
 // View employees by department.
 
@@ -17,7 +18,7 @@ const role = require('./js/role.js')
 const department = require('./js/department.js')
 
 
-const runApp = async() => {
+const runApp = async () => {
     const response = await inquirer.prompt([
         {
             type: 'list',
@@ -59,6 +60,10 @@ const runApp = async() => {
                 {
                     name: "View employees by manager",
                     value: 'VIEW EMPM'
+                },
+                {
+                    name: 'View employees by department',
+                    value: 'VIEW EMPD'
                 }
             ]
         }
@@ -66,11 +71,11 @@ const runApp = async() => {
 
     const { selection } = response
 
-    switch(selection){
+    switch (selection) {
         case "VIEW EMP":
             console.table(await employee.viewEmployees())
             runApp()
-            break   
+            break
         case "VIEW ROLES":
             console.table(await role.viewRoles())
             runApp()
@@ -103,8 +108,12 @@ const runApp = async() => {
             console.table((await employee.viewManagerEmployees()).flat())
             runApp()
             break
+        case "VIEW EMPD":
+            await employee.viewDepartmentEmployees()
+            runApp()
+            break
     }
 }
 
-sequelize.sync({force: false}).then(runApp)
+sequelize.sync({ force: false }).then(runApp)
 
