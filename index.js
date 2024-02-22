@@ -109,7 +109,7 @@ const runApp = async () => {
             runApp()
             break
         case "VIEW EMPD":
-            await employee.viewDepartmentEmployees()
+            console.table(await employee.viewDepartmentEmployees())
             runApp()
             break
     }

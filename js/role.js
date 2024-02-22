@@ -8,6 +8,18 @@ const viewRoles = async () => {
     return result
 }
 
+const viewRolesByDep = async (res) => {
+    const response = await sequelize.query(`SELECT * FROM role WHERE department_id=${res.department_id}`)
+    response.pop()
+    return (response.flat()).map((role) => role.id)
+}
+
+const viewRole= async (role) => {
+    const response = await sequelize.query(`SELECT * FROM role WHERE id=${role}`)
+    response.pop()
+    return response
+}
+
 const addRole = async () => {
     const response = await inquirer.prompt([
         {
@@ -36,5 +48,7 @@ const addRole = async () => {
 
 module.exports = {
     viewRoles,
-    addRole
+    addRole,
+    viewRolesByDep,
+    viewRole
 }
