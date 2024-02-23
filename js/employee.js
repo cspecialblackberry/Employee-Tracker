@@ -6,18 +6,12 @@ const department = require('./department.js')
 
 const fillEmpTable = async (obj) => {
     const { role_id, manager_id } = obj
-    console.log(role_id, manager_id)
     const roleObj = (await role.viewRole(role_id)).flat()
-    console.log('11', roleObj[0])
     const { title, salary } = roleObj[0]
-    console.log('13', title, salary)
     const managerObj = (await viewEmployee(manager_id)).flat()
-    console.log('15', managerObj)
     let manager = 'NULL'
-    console.log(managerObj[0], 'HELLO')
     if (managerObj[0]) {
         manager = `${managerObj[0].first_name} ${managerObj[0].last_name}`
-        console.log('17', manager)
     }
     const { id, first_name, last_name } = obj
     return {
@@ -55,13 +49,12 @@ const viewManagerEmployees = async () => {
     )
     const result = await sequelize.query(`SELECT * FROM employee WHERE manager_id=${response.employee_id}`)
     if (result[0] == '') {
-        console.log('This employee does not manage anyone.')
-        return
+        return [{employees: 'This employee does not manage anyone.'}]
     } else {
-        const employees = result.pop()
-        return result
+        result.pop()
+        const employees = await Promise.all((result.flat()).map(fillEmpTable))
+        return employees
     }
-    console.log(result)
 }
 
 const viewEmployeesByRole = async (role) => {
