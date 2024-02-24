@@ -182,16 +182,27 @@ const updateEmployeeManager = async () => {
             })
         },
         {
-            type: 'list',
-            message: 'Who is their new manager?',
-            name: 'manager_id',
-            choices: (await viewEmployees()).map((emp) => {
-                return { name: `${emp.first_name} ${emp.last_name}`, value: emp.id }
-            })
+            type: 'confirm',
+            message: 'Will they have a manager?',
+            name: 'manager_bool'
         }
     ])
-    const update = await sequelize.query(`UPDATE employee SET manager_id=${response.manager_id} WHERE id=${response.employee_id}`)
-    console.log('Successfully updated employee!')
+    let manager = null
+    if(response.manager_bool===true){
+        const newManager = await inquirer.prompt([
+            {
+                type: 'list',
+                message: 'Who is their new manager?',
+                name: 'manager_id',
+                choices: (await viewEmployees()).map((emp) => {
+                    return { name: `${emp.first_name} ${emp.last_name}`, value: emp.id }
+                })
+            }
+        ])
+        manager = newManager.manager_id
+    }
+    const update = await sequelize.query(`UPDATE employee SET manager_id=${manager} WHERE id=${response.employee_id}`)
+    console.log(`Successfully updated employee!`)
 }
 
 module.exports = {
@@ -201,5 +212,6 @@ module.exports = {
     updateEmployeeManager,
     viewManagerEmployees,
     viewDepartmentEmployees,
-    viewEmployeesByRole
+    viewEmployeesByRole,
+    viewEmployee
 }

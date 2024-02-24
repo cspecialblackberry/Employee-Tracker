@@ -1,6 +1,3 @@
-// Update employee managers.
-//Done
-
 // Delete departments, roles, and employees.
 
 const sequelize = require('./config/connection.js')

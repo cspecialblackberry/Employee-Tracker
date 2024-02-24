@@ -1,7 +1,7 @@
 const sequelize = require('../config/connection.js')
 const inquirer = require('inquirer')
 
-const department = require('./department.js')
+const department = require('./department')
 
 const fillRoleTable = async (obj) => {
     const { id, title, salary, department_id } = obj
@@ -27,7 +27,7 @@ const viewRolesByDep = async (obj) => {
     return (response.flat()).map((role) => role.id)
 }
 
-const viewRole= async (role) => {
+const viewRole = async (role) => {
     const response = await sequelize.query(`SELECT * FROM role WHERE id=${role}`)
     response.pop()
     return response
@@ -60,8 +60,8 @@ const addRole = async () => {
 }
 
 module.exports = {
+    viewRole,
     viewRoles,
     addRole,
-    viewRolesByDep,
-    viewRole
+    viewRolesByDep
 }

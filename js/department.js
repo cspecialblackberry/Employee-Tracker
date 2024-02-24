@@ -6,7 +6,7 @@ const viewDepartments = async () => {
     return result
 }
 
-const viewDepartment= async (dep) => {
+const viewDepartment = async (dep) => {
     const response = await sequelize.query(`SELECT * FROM department WHERE id=${dep}`)
     response.pop()
     return response
