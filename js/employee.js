@@ -5,7 +5,7 @@ const role = require('./role.js')
 const department = require('./department.js')
 
 const fillEmpTable = async (obj) => {
-    const { role_id, manager_id } = obj
+    const { role_id, manager_id, id, first_name, last_name } = obj
     const roleObj = (await role.viewRole(role_id)).flat()
     const { title, salary } = roleObj[0]
     const managerObj = (await viewEmployee(manager_id)).flat()
@@ -13,7 +13,6 @@ const fillEmpTable = async (obj) => {
     if (managerObj[0]) {
         manager = `${managerObj[0].first_name} ${managerObj[0].last_name}`
     }
-    const { id, first_name, last_name } = obj
     return {
         id,
         first_name,
@@ -201,5 +200,6 @@ module.exports = {
     updateEmployeeRole,
     updateEmployeeManager,
     viewManagerEmployees,
-    viewDepartmentEmployees
+    viewDepartmentEmployees,
+    viewEmployeesByRole
 }

@@ -3,13 +3,26 @@ const inquirer = require('inquirer')
 
 const department = require('./department.js')
 
-const viewRoles = async () => {
-    const [result, meta] = await sequelize.query("SELECT * FROM role")
-    return result
+const fillRoleTable = async (obj) => {
+    const { id, title, salary, department_id } = obj
+    const departmentObj = (await department.viewDepartment(department_id)).flat()
+    const dept = departmentObj[0].name
+    return {
+        id,
+        title,
+        salary,
+        dept
+    }
 }
 
-const viewRolesByDep = async (res) => {
-    const response = await sequelize.query(`SELECT * FROM role WHERE department_id=${res.department_id}`)
+const viewRoles = async () => {
+    const [result, meta] = await sequelize.query("SELECT * FROM role")
+    const newRoles = await Promise.all(result.map(fillRoleTable))
+    return newRoles
+}
+
+const viewRolesByDep = async (obj) => {
+    const response = await sequelize.query(`SELECT * FROM role WHERE department_id=${obj.department_id}`)
     response.pop()
     return (response.flat()).map((role) => role.id)
 }
