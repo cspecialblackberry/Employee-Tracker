@@ -1,5 +1,3 @@
-// Delete departments, roles, and employees.
-
 const sequelize = require('./config/connection.js')
 const inquirer = require('inquirer')
 
