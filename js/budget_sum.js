@@ -4,6 +4,8 @@ const department = require('./department')
 const role = require('./role')
 const employee = require('./employee')
 
+//function that gives a prompt to select a department and then pulls all the roles and their salaries in that department as well as all of the respective employees and 
+//adds up all of their salaries, returning a string with the value inserted.
 const budgetSum = async () => {
     const response = await inquirer.prompt([
         {

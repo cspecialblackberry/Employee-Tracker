@@ -7,7 +7,9 @@ const department = require('./js/department')
 const budgetSum = require('./js/budget_sum')
 const updtEmployee = require('./js/update_employees')
 
+//main function to run app
 const runApp = async () => {
+    //main action select prompt
     const response = await inquirer.prompt([
         {
             type: 'list',

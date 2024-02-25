@@ -4,6 +4,7 @@ const inquirer = require('inquirer')
 const role = require('./role.js')
 const department = require('./department.js')
 
+//fill the employee objects with missing information from related tables and returning the new objects to be printed in the console
 const fillEmpTable = async (obj) => {
     const { role_id, manager_id, id, first_name, last_name } = obj
     const roleObj = (await role.viewRole(role_id)).flat()
@@ -24,17 +25,20 @@ const fillEmpTable = async (obj) => {
 
 }
 
+//returns all employees
 const viewEmployees = async () => {
     const [result, meta] = await sequelize.query("SELECT * FROM employee")
     const employees = await Promise.all(result.map(fillEmpTable))
     return employees
 }
 
+//returns one specified employee
 const viewEmployee = async (emp) => {
     const [result, meta] = await sequelize.query(`SELECT * FROM employee WHERE id=${emp}`)
     return result
 }
 
+//prompt to select a manager and returns all of that manager's employees
 const viewManagerEmployees = async () => {
     const response = await inquirer.prompt(
         {
@@ -56,12 +60,14 @@ const viewManagerEmployees = async () => {
     }
 }
 
+//returns all employees of a specified role
 const viewEmployeesByRole = async (role) => {
     const response = await sequelize.query(`SELECT * FROM employee WHERE role_id=${role}`)
     response.pop()
     return response
 }
 
+//select a department from a choice prompt and returns all of the employees in that department
 const viewDepartmentEmployees = async () => {
     const response = await inquirer.prompt(
         {

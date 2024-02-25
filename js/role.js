@@ -3,6 +3,7 @@ const inquirer = require('inquirer')
 
 const department = require('./department')
 
+//fill the role objects with missing information from related tables and returning the new objects to be printed in the console
 const fillRoleTable = async (obj) => {
     const { id, title, salary, department_id } = obj
     const departmentObj = (await department.viewDepartment(department_id)).flat()
@@ -15,24 +16,28 @@ const fillRoleTable = async (obj) => {
     }
 }
 
+//returns all roles
 const viewRoles = async () => {
     const [result, meta] = await sequelize.query("SELECT * FROM role")
     const newRoles = await Promise.all(result.map(fillRoleTable))
     return newRoles
 }
 
+//returns all the roles in a specified department
 const viewRolesByDep = async (obj) => {
     const response = await sequelize.query(`SELECT * FROM role WHERE department_id=${obj.department_id}`)
     response.pop()
     return (response.flat()).map((role) => role.id)
 }
 
+//return a specified role
 const viewRole = async (role) => {
     const response = await sequelize.query(`SELECT * FROM role WHERE id=${role}`)
     response.pop()
     return response
 }
 
+//add a new role
 const addRole = async () => {
     const response = await inquirer.prompt([
         {

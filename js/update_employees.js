@@ -4,6 +4,7 @@ const sequelize = require('../config/connection')
 const employee = require('./employee')
 const role = require('./role')
 
+//prompt asking who is the manager and returns the response
 const managerPrompt = async () => {
     const response = await inquirer.prompt(
         {
@@ -18,10 +19,12 @@ const managerPrompt = async () => {
     return response
 }
 
+//sequelize query to insert a new employee
 const insertEmployee = async (emp) => {
     return await sequelize.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) values ('${emp.first_name}', '${emp.last_name}', ${emp.role}, ${emp.manager_id})`)
 }
 
+//add a new employee
 const addEmployee = async () => {
     const response = await inquirer.prompt([
         {
@@ -72,6 +75,7 @@ const addEmployee = async () => {
     }
 }
 
+//change a current employee's role
 const updateEmployeeRole = async () => {
     const response = await inquirer.prompt([
         {
@@ -95,6 +99,7 @@ const updateEmployeeRole = async () => {
     console.log('Successfully updated employee!')
 }
 
+//change a current employee's manager
 const updateEmployeeManager = async () => {
     const response = await inquirer.prompt([
         {
