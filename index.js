@@ -7,7 +7,7 @@ const employee = require('./js/employee')
 const role = require('./js/role')
 const department = require('./js/department')
 const budgetSum = require('./js/budget_sum')
-
+const updtEmployee = require('./js/update_employees')
 
 const runApp = async () => {
     const response = await inquirer.prompt([
@@ -88,15 +88,15 @@ const runApp = async () => {
             runApp()
             break
         case "ADD EMP":
-            await employee.addEmployee()
+            await updtEmployee.addEmployee()
             runApp()
             break
         case "UPDT EMP":
-            await employee.updateEmployeeRole()
+            await updtEmployee.updateEmployeeRole()
             runApp()
             break
         case "UPDT EMPM":
-            await employee.updateEmployeeManager()
+            await updtEmployee.updateEmployeeManager()
             runApp()
             break
         case "VIEW EMPM":
